@@ -1,26 +1,37 @@
-import { route, GET, POST } from 'awilix-express'
-import { Request, Response } from 'express'
-import { CreateUserUseCase } from '../../../application/user/use-cases/create-user'
-import { ModuleErrorHandler } from '../../../libs/decorators/module-error-handler.decorator'
+import { Request, Response, Router } from 'express'
+import { UserService } from '../../../application/user.service'
 import { ToolsService } from '../../../libs/services/tools'
+import { BaseController } from '../../common/interfaces/base-controller.interface'
 import { CreateUserReqDto } from '../dto/requests/create-user.dto'
 
-@route('/users')
-@ModuleErrorHandler
-export default class UserController {
-  constructor (private toolsService: ToolsService, private createUserUseCase: CreateUserUseCase) {}
-
-  @POST()
-  async createUser (request: Request, response: Response) {
-    const userDto = await this.toolsService.validator(
-      new CreateUserReqDto(request.body)
-    )
-    const user = await this.createUserUseCase.create(userDto, '', '')
-    return response.status(201).send({ message: 'Created', item: user })
+export default class UserController implements BaseController {
+  private router: Router
+  constructor (
+    private toolsService: ToolsService,
+    private userService: UserService
+  ) {
+    this.router = Router()
   }
 
-  @GET()
-  async getUser (_request: Request, response: Response) {
-    return response.send({ message: 'Success', users: 'Users' })
+  async createUser ({ body }: Request) {
+    const userDto = await this.toolsService.validator(
+      new CreateUserReqDto(body)
+    )
+    const user = await this.userService.create(userDto, '', '')
+    return { message: 'Created', item: user }
+  }
+
+  async getUser () {
+    return { message: 'Success', users: 'Users' }
+  }
+
+  routes () {
+    this.router.post('/', (req: Request, res: Response) =>
+      res.status(201).send(this.createUser(req))
+    )
+    this.router.get('/', (_req: Request, res: Response) =>
+      res.send(this.getUser())
+    )
+    return this.router
   }
 }

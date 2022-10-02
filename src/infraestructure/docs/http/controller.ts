@@ -1,21 +1,22 @@
-import { route, GET, before } from 'awilix-express'
-import { Request, Response } from 'express'
-import redocExpressMiddleware from 'redoc-express'
+import { Request, Response, Router } from 'express'
+import redoc from 'redoc-express'
+import { BaseController } from '../../common/interfaces/base-controller.interface'
 
-@route('/docs')
-export default class UserController {
-  @route('/swagger.json')
-  @GET()
-  async serveSwaggerFile (_request: Request, response: Response) {
-    response.sendFile('/docs/swagger.json', { root: process.cwd() })
+export default class DocsController implements BaseController {
+  private router: Router
+  constructor () {
+    this.router = Router()
   }
 
-  @GET()
-  @before([
-    redocExpressMiddleware({
+  routes () {
+    const redocOptions = {
       title: 'API Docs',
       specUrl: '/api/docs/swagger.json'
-    })
-  ])
-  async serveRedoc (_request: Request, _response: Response) {}
+    }
+    this.router.get('/swagger.json', (_req: Request, res: Response) =>
+      res.sendFile('/docs/swagger.json', { root: process.cwd() })
+    )
+    this.router.get('/', redoc(redocOptions))
+    return this.router
+  }
 }

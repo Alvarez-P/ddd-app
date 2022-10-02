@@ -1,17 +1,21 @@
 import 'reflect-metadata'
-import express from 'express'
+import express, { Router } from 'express'
 import cors from 'cors'
 import { container } from '../../../container'
-import { loadControllers, scopePerRequest } from 'awilix-express'
+import UserController from '../../user/http/controller'
+import DocsController from '../../docs/http/controller'
 
 export class App {
   public init (): express.Application {
-    const CONTROLLERS_PATH = 'src/infraestructure/*/http/controller.ts'
+    const router = Router()
+    const userController = container.resolve<UserController>('userController')
+    const docsController = container.resolve<DocsController>('docsController')
+    router.use('/user', userController.routes())
+    router.use('/docs', docsController.routes())
     const app: express.Application = express()
     app.use(cors())
     app.use(express.json())
-    app.use(scopePerRequest(container))
-    app.use('/api', loadControllers(CONTROLLERS_PATH, { cwd: process.cwd() }))
+    app.use('/api', router)
     return app
   }
 }

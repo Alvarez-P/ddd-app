@@ -1,7 +1,7 @@
-import { CreateUserReqDto } from '../../../../infraestructure/user/dto/requests/create-user.dto'
-import { UserResDto } from '../../../../infraestructure/user/dto/responses/base-user.dto'
+import { CreateUserReqDto } from '../../infraestructure/user/dto/requests/create-user.dto'
+import { UserResDto } from '../../infraestructure/user/dto/responses/base-user.dto'
 
-export interface ICreateUserUseCase {
+export interface IUserService {
   /**
    * @description Creates a user
    * @param  {CreateUserReqDto} userDto
