@@ -1,0 +1,179 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DDD APP - OpenAPI 3.0",
+    "description": "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about\nSwagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!\nYou can now help us improve the API whether it's by making changes to the definition itself or to the code.\nThat way, with time, we can improve the API in general, and expose some of the new features in OAS3.\n\n_If you're looking for the Swagger 2.0/OAS 2.0 version of Petstore, then click [here](https://editor.swagger.io/?url=https://petstore.swagger.io/v2/swagger.yaml). Alternatively, you can load via the `Edit > Load Petstore OAS 2.0` menu option!_\n\nSome useful links:\n- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)\n- [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "alvarez.p.esteban@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.11"
+  },
+  "externalDocs": {
+    "description": "Author: Alvarez Pacheco Adolfo Esteban",
+    "url": "https://github.com/Alvarez-P"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserResDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "A unique username",
+            "example": "alvarezp"
+          },
+          "firstname": {
+            "type": "string",
+            "example": "adolfo"
+          },
+          "lastname": {
+            "type": "string",
+            "example": "alvarez"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int64",
+            "example": 24
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "alvarez.p.esteban@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "A secure user password",
+            "example": "alvarez2022!"
+          }
+        }
+      },
+      "CreateUserResDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Success"
+          },
+          "item": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "A unique user id",
+                "format": "uuid",
+                "example": "a2d29391-e2d8-41d4-8e22-2d49b18f602a"
+              },
+              "username": {
+                "type": "string",
+                "description": "A unique username",
+                "example": "alvarezp"
+              },
+              "firstname": {
+                "type": "string",
+                "example": "adolfo"
+              },
+              "lastname": {
+                "type": "string",
+                "example": "alvarez"
+              },
+              "age": {
+                "type": "integer",
+                "format": "int64",
+                "example": 24
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "example": "alvarez.p.esteban@gmail.com"
+              },
+              "role": {
+                "type": "string",
+                "description": "User role id",
+                "format": "uuid",
+                "example": "43fbd863-9626-4c70-9edd-a36d4c35c97c"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Create date",
+                "format": "date-time",
+                "example": "2022-10-01T23:55:23.484Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Update date",
+                "format": "date-time",
+                "example": null
+              },
+              "createdBy": {
+                "type": "string",
+                "description": "Who created the item",
+                "format": "uuid",
+                "example": "43fbd863-9626-4c70-9edd-a36d4c35c97c"
+              },
+              "updatedBy": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Who updated the item",
+                "example": null
+              },
+              "deletedBy": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Who deleted the item",
+                "example": null
+              },
+              "tenant": {
+                "type": "string",
+                "description": "User tenant id",
+                "format": "uuid",
+                "example": "43fbd863-9626-4c70-9edd-a36d4c35c97c"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
