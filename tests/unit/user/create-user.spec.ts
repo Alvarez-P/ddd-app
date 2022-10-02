@@ -1,11 +1,11 @@
 import { v4 as uuid } from 'uuid'
-import { CreateUserUseCase } from '../../../src/application/user/use-cases/create-user'
+import { UserService } from '../../../src/application/user.service'
 import { User } from '../../../src/domain/user/entity/user.entity'
 import { CreateUserReqDto } from '../../../src/infraestructure/user/dto/requests/create-user.dto'
 import { createUserReqMock, userMock } from '../dataset/user'
 
 describe('Testing CreateUserUseCase service', () => {
-  const sut = new CreateUserUseCase()
+  const sut = new UserService()
   it('should create a user', async () => {
     const userReqMock: CreateUserReqDto = createUserReqMock()
     const tenantId = uuid()

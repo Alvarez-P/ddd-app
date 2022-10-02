@@ -21,13 +21,13 @@ export default class UserController implements BaseController {
     return { message: 'Created', item: user }
   }
 
-  async getUser () {
+  getUser () {
     return { message: 'Success', users: 'Users' }
   }
 
   routes () {
-    this.router.post('/', (req: Request, res: Response) =>
-      res.status(201).send(this.createUser(req))
+    this.router.post('/', async (req: Request, res: Response) =>
+      res.status(201).send(await this.createUser(req))
     )
     this.router.get('/', (_req: Request, res: Response) =>
       res.send(this.getUser())

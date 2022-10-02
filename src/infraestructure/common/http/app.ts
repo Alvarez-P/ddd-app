@@ -10,7 +10,7 @@ export class App {
     const router = Router()
     const userController = container.resolve<UserController>('userController')
     const docsController = container.resolve<DocsController>('docsController')
-    router.use('/user', userController.routes())
+    router.use('/users', userController.routes())
     router.use('/docs', docsController.routes())
     const app: express.Application = express()
     app.use(cors())
