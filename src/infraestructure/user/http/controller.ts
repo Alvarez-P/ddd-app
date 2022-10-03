@@ -13,25 +13,21 @@ export default class UserController implements BaseController {
     this.router = Router()
   }
 
-  async createUser ({ body }: Request) {
+  async createUser ({ body }: Request, response: Response) {
     const userDto = await this.toolsService.validator(
       new CreateUserReqDto(body)
     )
     const user = await this.userService.create(userDto, '', '')
-    return { message: 'Created', item: user }
+    return response.status(201).send({ message: 'Created', item: user })
   }
 
-  getUser () {
-    return { message: 'Success', users: 'Users' }
+  getUser (_request: Request, response: Response) {
+    return response.send({ message: 'Success', users: 'Users' })
   }
 
   routes () {
-    this.router.post('/', async (req: Request, res: Response) =>
-      res.status(201).send(await this.createUser(req))
-    )
-    this.router.get('/', (_req: Request, res: Response) =>
-      res.send(this.getUser())
-    )
+    this.router.post('/', this.createUser.bind(this))
+    this.router.get('/', this.getUser.bind(this))
     return this.router
   }
 }
